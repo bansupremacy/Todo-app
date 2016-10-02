@@ -42,7 +42,10 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://imgur.com/Puwfiqy' title='Noter demo' width='' alt='Todo app demo' />
+<video controls="controls">
+  <source type="video/mp4" src="http://i.imgur.com/Puwfiqy.mp4"></source>
+  <p>Your browser does not support the video element.</p>
+</video>
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
