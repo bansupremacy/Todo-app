@@ -42,7 +42,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/Puwfiqy.mp4' title='Noter demo' width='' alt='Todo app demo' />
+<img src='http://imgur.com/Puwfiqy' title='Noter demo' width='' alt='Todo app demo' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
