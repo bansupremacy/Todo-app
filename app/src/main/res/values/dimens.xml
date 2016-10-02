@@ -1,0 +1,16 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--NOTE LIST-->
+    <dimen name="note_vertical_space">20dp</dimen>
+
+    <!--NOTE LAYOUT-->
+    <dimen name="note_size">155dp</dimen>
+    <dimen name="delete_button_margin">4.5dp</dimen>
+    <dimen name="note_content_margin">4dp</dimen>
+
+    <!--NOTE EDIT-->
+    <dimen name="color_show">30dp</dimen>
+</resources>

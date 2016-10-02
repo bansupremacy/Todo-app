@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="com.playground.baoan.noter.NoteEditActivity">
+
+    <!--this is required for accessibility-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:labelFor="@+id/content_edit"
+        android:text="@string/content_edit_label"/>
+
+    <RelativeLayout
+        android:id="@+id/content_region"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:elevation="2dp">
+
+        <LinearLayout
+            android:id="@+id/big_note_action_bar"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="1dp">
+
+            <ImageView
+                android:id="@+id/big_delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/del_icon"
+                android:src="@drawable/ic_cancel_white_36dp"
+                android:layout_marginTop="@dimen/delete_button_margin"
+                android:layout_marginBottom="@dimen/delete_button_margin"
+                android:layout_marginEnd="@dimen/delete_button_margin"
+                android:layout_marginRight="@dimen/delete_button_margin"
+                android:layout_gravity="end"
+                android:onClick="onDeleteButtonClick"
+                />
+
+        </LinearLayout>
+
+        <!--inputType="textMultiLine" make the text appears in multi lines (auto break)-->
+        <EditText
+            android:id="@+id/content_edit" 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text|textMultiLine" 
+            android:gravity="start"
+            android:layout_below="@id/big_note_action_bar"
+            android:background="@android:color/transparent"
+            android:layout_margin="@dimen/note_content_margin"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

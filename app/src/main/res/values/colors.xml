@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#00BCD4</color>
+    
+    <!--NOTE COLORS-->
+    <color name="yellow">#FFF9C4</color>
+    <color name="red">#FFCDD2</color>
+    <color name="blue">#B3E5FC</color>
+    <color name="green">#C8E6C9</color>
+    <color name="teal">#B2DFDB</color>
+    <color name="orange">#FFE0B2</color>
+
+    <!--NOTE ACTION BAR COLORS-->
+    <color name="dark_blue">#03A9F4</color>
+    <color name="dark_yellow">#FFEB3B</color>
+    <color name="dark_red">#F44336</color>
+    <color name="dark_green">#4CAF50</color>
+    <color name="dark_teal">#009688</color>
+    <color name="dark_orange">#FF9800</color>
+
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/note_region"
+    android:orientation="vertical" android:layout_width="@dimen/note_size"
+    android:layout_height="@dimen/note_size"
+    android:elevation="2dp">
+
+    <LinearLayout
+        android:id="@+id/note_action_bar"
+        android:orientation="vertical"
+        android:layout_width="@dimen/note_size"
+        android:layout_height="wrap_content"
+        android:elevation="1dp">
+
+        <ImageView
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/del_icon"
+            android:src="@drawable/ic_cancel_white_18dp"
+            android:layout_marginTop="@dimen/delete_button_margin"
+            android:layout_marginBottom="@dimen/delete_button_margin"
+            android:layout_marginEnd="@dimen/delete_button_margin"
+            android:layout_marginRight="@dimen/delete_button_margin"
+            android:layout_gravity="end"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/content_view"
+        android:layout_width="@dimen/note_size"
+        android:layout_height="match_parent"
+        android:gravity="start"
+        android:layout_marginStart="@dimen/note_content_margin"
+        android:layout_marginLeft="@dimen/note_content_margin"
+        android:layout_below="@id/note_action_bar"
+        android:fontFamily="sans-serif-condensed"/>
+
+</RelativeLayout>

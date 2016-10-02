@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Noter</string>
+    <string name="note_edit">Edit Note</string>
+    <string name="blank"> </string>
+
+    <!--MENU-->
+    <string name="create_note">Create new note</string>
+
+    <!--NOTE LIST-->
+    <string name="del_icon">Trash Icon</string>
+
+    <!--NOTE EDIT-->
+    <string name="content_edit_label">Content Edit</string>
+    <string name="edit_delete_button">Delete</string>
+    <string name="edit_save_button">Publish</string>
+    <string name="action_color_chooser">Choose Color</string>
+    <string name="action_save">SAVE</string>
+
+    <!--COLOR LAYOUT-->
+    <string name="color_block">Color Block</string>
+</resources>

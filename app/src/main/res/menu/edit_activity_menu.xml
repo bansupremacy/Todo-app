@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_color_chooser"
+        app:actionViewClass="android.widget.Spinner"
+        app:showAsAction="ifRoom"
+        android:title="@string/action_color_chooser"
+        />
+    <!--actionViewClass has to be in app:, not android: for making getting menu item to work-->
+
+    <item
+        android:id="@+id/action_save"
+        android:title="@string/action_save"
+        app:showAsAction="always"
+        />
+</menu>
