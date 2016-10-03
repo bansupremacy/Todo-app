@@ -4,7 +4,7 @@
 
 Submitted by: **An Nguyen**
 
-Time spent: **12** hours spent in total
+Time spent: **14** hours spent in total
 
 ## User Stories
 
@@ -25,10 +25,10 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
+* [X] Get rid of GridView to use RecyclerView with GridLayoutManager instead
 * [X] Use SharedPreferences instead of a text file to persist datas
 * [X] Use GSON API to convert Note objects to JSON objects and store them in SharedPreferences
 * [X] Use a Handler to get the datas from SharedPreferences for better performance
-* [X] Use GridView instead of ListView for a characteristic look
 * [X] Use ViewHolder pattern in Adapters for better performance
 * [X] Implements Parcelable in Note class to transfer its instances using Intent
 * [X] Use a custom adapter for the color-choosing Spinner, which looks cool

@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +22,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class NoteListActivity extends AppCompatActivity {
+public class NoteListActivity extends AppCompatActivity implements RecyclerNoteAdapter.myItemClickListener{
     //Unique codes for sharedPref
     public static final String SHARED_PREFS = "SharePrefs";
     public static final String NOTE_LIST = "NoteList";
@@ -32,12 +35,15 @@ public class NoteListActivity extends AppCompatActivity {
     public final int EDIT_RESULT = 1;
     public final int CREATE_RESULT = 3;
 
-    private NoteAdapter noteAdapter;
+    private RecyclerNoteAdapter recyclerNoteAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_list);
+
+        //create an empty List of Note
+        final List<Note> noteData = new ArrayList<>();
 
         //get the Note list from SharedPreferences (using Handler for better performance)
         new Handler().post(new Runnable() {
@@ -52,37 +58,48 @@ public class NoteListActivity extends AppCompatActivity {
                 //get the Note object from the json list
                 if (jsonArray != null) {
                     for (String json: jsonArray) {
-                        Note.notes.add(gson.fromJson(json, Note.class));
+                        noteData.add(gson.fromJson(json, Note.class));
                     }
                 }
             }
         });
 
-        //populate the GridView with notes List
-        GridView noteList = (GridView) findViewById(R.id.note_list);
-        noteAdapter = new NoteAdapter(
-                this,
-                R.layout.note_layout,
-                Note.notes
-        );
+        /**USING RECYCLERVIEW*/
+        //get the reference to the RecyclerView
+        RecyclerView noteList = (RecyclerView) findViewById(R.id.recycler_view);
 
-        noteList.setAdapter(noteAdapter);
+        //create a new RecyclerAdapter with data
+        recyclerNoteAdapter = new RecyclerNoteAdapter(noteData);
 
-        //create a item click listener for the listView
-        noteList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-            	//create an Intent to EditActivity
-                Intent editIntent = new Intent(NoteListActivity.this, NoteEditActivity.class);
-                //put in the Intent the Note which is chosen with code EXTRA_NOTE
-                editIntent.putExtra(EXTRA_NOTE, (Note) parent.getAdapter().getItem(position));
-                //put in the Intent the ID of the item in the Adapter
-                editIntent.putExtra(EXTRA_ID, position);
-                //start the Intent with requestCode EDIT_RESULT
-                startActivityForResult(editIntent, EDIT_RESULT);
-            }
-        });
+        //do this if layout does not change size for better performance
+        noteList.setHasFixedSize(true);
+
+        //set the layout wrapper for the RecyclerView
+        //using a GridLayoutManager with 2 columns
+        noteList.setLayoutManager(new GridLayoutManager(this, 2));
+        //add spacing around items using ItemDecoration
+        noteList.addItemDecoration(new SpacingItemDecoration(
+                getResources().getDimensionPixelOffset(R.dimen.note_spacing)));
+
+        //set the adapter for the noteList
+        noteList.setAdapter(recyclerNoteAdapter);
+        /**USING RECYCLERVIEW*/
     }
+
+    /**the self-implemented OnItemClickListener of RecyclerView
+     * because RecyclerView does not come with one*/
+    @Override
+    public void itemClicked(int id, Note note) {
+        //create an Intent to EditActivity
+        Intent editIntent = new Intent(NoteListActivity.this, NoteEditActivity.class);
+        //put in the Intent the Note which is chosen with code EXTRA_NOTE
+        editIntent.putExtra(EXTRA_NOTE, note);
+        //put in the Intent the ID of the item in the Adapter
+        editIntent.putExtra(EXTRA_ID, id);
+        //start the Intent with requestCode EDIT_RESULT
+        startActivityForResult(editIntent, EDIT_RESULT);
+    }
+    /**--------------------------------------------------*/
 
     //after startActivityForResult
     @Override
@@ -98,19 +115,15 @@ public class NoteListActivity extends AppCompatActivity {
                         int chosenId = data.getExtras().getInt(EXTRA_ID);
                         //get the edited Note created by EditActivity
                         Note editedNote = data.getExtras().getParcelable(NoteEditActivity.RESULT_NOTE);
-                        //replace the Note with the chosen ID with the new edited Note
-                        Note.notes.set(chosenId, editedNote);
-                        //notify the Adapter of data change --> the GridView will get redrawn
-                        noteAdapter.notifyDataSetChanged();
+                        //call the recyclerNoteAdapter to update
+                        recyclerNoteAdapter.changeItem(editedNote, chosenId);
                         break;
                     //if the Note is deleted through Edit Activity
                     case NoteEditActivity.RESULT_DELETE:
                     	//get the ID of the previously chosen Note
                         chosenId = data.getExtras().getInt(EXTRA_ID);
-                        //delete it
-                        Note.notes.remove(chosenId);
-                        //notify the Adapter of the data change
-                        noteAdapter.notifyDataSetChanged();
+                        //call the recyclerNoteAdapter to remove
+                        recyclerNoteAdapter.removeItem(chosenId);
                         break;
                 }
                 break;
@@ -120,10 +133,8 @@ public class NoteListActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                 	//get the created Note
                     Note createdNote = data.getExtras().getParcelable(NoteEditActivity.RESULT_NOTE);
-                    //add it into the end of the List
-                    Note.notes.add(createdNote);
-                    //notify the Adapter of data change
-                    noteAdapter.notifyDataSetChanged();
+                    //call the recyclerNoteAdapter to insert
+                    recyclerNoteAdapter.addItem(createdNote);
                 }
                 break;
         }
@@ -160,19 +171,25 @@ public class NoteListActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        //use GSON API to store Object as json
-        Gson gson = new Gson();
-        List<String> jsonArray = new ArrayList<>();
-        //save all the Notes as json strings
-        for (Note note: Note.notes) {
-            jsonArray.add(gson.toJson(note));
-        }
-        //have to do this because of SharedPrefs scrambling Set
-        String jsonArrayJson = gson.toJson(jsonArray);
-        sharedPreferences
-                .edit()
-                .putString(NOTE_LIST, jsonArrayJson)
-                .apply();
+        //use a Handler for better performance
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                //use GSON API to store Object as json
+                Gson gson = new Gson();
+                List<String> jsonArray = new ArrayList<>();
+                //save all the Notes as json strings
+                for (Note note: recyclerNoteAdapter.getNoteList()) {
+                    jsonArray.add(gson.toJson(note));
+                }
+                //have to do this because of SharedPrefs scrambling Set
+                String jsonArrayJson = gson.toJson(jsonArray);
+                sharedPreferences
+                        .edit()
+                        .putString(NOTE_LIST, jsonArrayJson)
+                        .apply();
+            }
+        });
     }
 }

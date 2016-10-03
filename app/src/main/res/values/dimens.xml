@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!--NOTE LIST-->
-    <dimen name="note_vertical_space">20dp</dimen>
+    <dimen name="note_spacing">20dp</dimen>
 
     <!--NOTE LAYOUT-->
     <dimen name="note_size">155dp</dimen>

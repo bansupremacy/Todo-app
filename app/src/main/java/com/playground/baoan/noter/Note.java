@@ -46,8 +46,6 @@ public class Note implements Parcelable {
     }
     private String content;
     private Color color;
-    //Arrays.asList make a Collection from an array of object
-    public static List<Note> notes = new ArrayList<>();
 
     Note(String content, Color color) {
         this.content = content;
